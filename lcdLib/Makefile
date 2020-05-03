@@ -8,7 +8,7 @@ CC              = msp430-elf-gcc
 AS              = msp430-elf-as
 AR              = msp430-elf-ar
 
-libLcd.a: font-11x16.o font-5x7.o font-8x12.o lcdutils.o lcddraw.o
+libLcd.a: font-11x16.o font-5x7.o font-8x12.o font-12x8.c lcdutils.o lcddraw.o
 	$(AR) crs $@ $^
 
 lcddraw.o: lcddraw.c lcddraw.h lcdutils.h
@@ -23,7 +23,22 @@ clean:
 	rm -f libLcd.a *.o *.elf
 
 lcddemo.elf: lcddemo.o libLcd.a 
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer 
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer
+
+lcdx.elf: lcdx.o libLcd.a 
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer
+
+final.elf: final.o libLcd.a buzzer.o
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lLcd -lTimer -lp2sw
 
 load: lcddemo.elf
 	msp430loader.sh $^
+
+loadx: lcdx.elf
+	msp430loader.sh $^
+
+final: final.elf
+	msp430loader.sh $^
+
+buzzer.o: buzzer.h buzzer.c
+
