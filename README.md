@@ -1,4 +1,7 @@
 # Project 3: Graphical LCD Toy 
+
+Project 3 in lcdLib
+
 ## Introduction
 
 Continuing your effort to help ACME Solutions provide Christmas toys, 
