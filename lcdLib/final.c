@@ -10,16 +10,21 @@
 /** Initializes everything, clears the screen, draws "hello" and a square */
 
 // Screen size: 128x160
+
+// Starting position of box
 u_char x_pos = 64;
 u_char y_pos = 80;
-u_int color = COLOR_GOLDENROD;
-int l = 0;
-int count = 0;
-int timer = 0;
-int tempo[] = {7,2,7,2,7,2,7,2,14,2,7,2,7,2,14,2,14,2,14,2,7,2,7,2,14,2,7,2,7,2,14,2,7,2,7,2,7,2,7,2,7,2,7,2,14,2,7,2,7,2,7,2,7,2,7,2,7,2,14,2,7,2,7,2,14,2,14,2,14,2,7,2,7,2,14,2,7,2,7,2,14,2,7,2,7,2,7,2,7,2,7,2,7,2,14,2,7,2,7,2,7,2,7,2,7,2,7,2};
 
+u_int color = COLOR_GOLDENROD;		// Main color of box
+int l = 0;				// Position for sound arrays
+int count = 0;				// timer for sleep
+int timer = 0;				// timer for sound
+
+// For sound
+int tempo[] = {7,2,7,2,7,2,7,2,14,2,7,2,7,2,14,2,14,2,14,2,7,2,7,2,14,2,7,2,7,2,14,2,7,2,7,2,7,2,7,2,7,2,7,2,14,2,7,2,7,2,7,2,7,2,7,2,7,2,14,2,7,2,7,2,14,2,14,2,14,2,7,2,7,2,14,2,7,2,7,2,14,2,7,2,7,2,7,2,7,2,7,2,7,2,14,2,7,2,7,2,7,2,7,2,7,2,7,2};
 int as[] = {2025,2273,2408,3034,2703,2703,1804,2025,2273,2408,2408,2408,2025,2273,2408,2703,2703,1136,1204,1136,1204,1136,2703,2703,1136,1204,1136,1204,1136,2703,2703,1804,2025,2273,2408,2408,2408,2025,2273,2408,2703,2703,1136,1204,1136,1204,1136,2703,2703,1136,1204,1136,1204,1136};
 
+// Creates box
 void perPos(u_char x_pos, u_char y_pos, u_int color) {
   u_char i;
   u_char j;
@@ -50,8 +55,9 @@ main()
   u_char i;
   clearScreen(COLOR_BLUE);
 
-  //  drawString5x7(10,10,"switches:",COLOR_GREEN,COLOR_BLUE);
+  //  For switches, sleep, and song 
   while(1) {
+    //	Switches
     u_int switches = p2sw_read(), k;
     for(k = 0; k < 4; k++) {
       if(!(switches & (1<<k))) {
@@ -72,15 +78,15 @@ main()
 	count = 0;
       }
     }
-    /*
+    // Sleep
     if(count == 250) {
       color = COLOR_BLUE;
       perPos(x_pos,y_pos,color);
       or_sr(0x10);
     }
-    */
     count += 1;
     perPos(x_pos, y_pos, color);
+    // Song
     timer++;
     if(timer == tempo[l]) {
       if(l%2 == 1) {
@@ -91,7 +97,7 @@ main()
       }
       l++;
       if(l == 108) {
-	// Loops back to the middle of the song
+	// Goes back to the middle of the song to make it loop
 	l = 57;
       }
       timer = 0;
