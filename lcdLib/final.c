@@ -67,17 +67,17 @@ main()
     perPos(x_pos, y_pos);
     // Song
     timer++;
-    if(timer == tempo[l]) {
-      if(l%2 == 1) {
-	buzzer_set_period(as[l/2 + 1]);
+    if(timer == tempo[note]) {
+      if(note%2 == 1) {
+	buzzer_set_period(as[note/2 + 1]);
       }
       else {
 	buzzer_set_period(0);
       }
       l++;
-      if(l == 108) {
+      if(note == 108) {
 	// Goes back to the middle of the song to make it loop
-	l = 57;
+	note = 57;
       }
       timer = 0;
     }
@@ -90,7 +90,7 @@ void wdt_c_handler() {
   count ++;
   if(count == 15) {
     redrawScreen = 1;
-    u_init switches = p2sw_read(), k;
+    u_int switches = p2sw_read(), k;
     for(k = 0; k < 4; k++) {          // to wake up
       if(!(switches & (1<<k))) {
         if(k == 0) {             // button one
