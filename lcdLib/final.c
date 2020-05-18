@@ -74,7 +74,7 @@ main()
       else {
 	buzzer_set_period(0);
       }
-      l++;
+      note++;
       if(note == 108) {
 	// Goes back to the middle of the song to make it loop
 	note = 57;
