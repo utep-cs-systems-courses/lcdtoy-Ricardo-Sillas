@@ -29,7 +29,7 @@ lcdx.elf: lcdx.o libLcd.a
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer
 
 final.elf: ${COMMON_OBJECTS} final.o wdt_handler.o libLcd.a buzzer.o
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lLcd -lTimer -lp2sw
+	${CC} ${CFLAGS} ${LDFLAGS} $^ -o $@ -lLcd -lTimer -lp2sw
 
 load: lcddemo.elf
 	msp430loader.sh $^
